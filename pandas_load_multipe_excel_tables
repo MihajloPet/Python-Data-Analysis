@@ -1,0 +1,40 @@
+import pandas as pd
+from openpyxl import load_workbook
+
+filename = 'BI team technical skills test final -test load.xlsx'
+#load workbook
+wb = load_workbook(filename)
+
+#load worksheet
+ws = wb['1. SQL test']
+
+#We can access the tables in the worksheet through the tables method
+# ws.tables.items()
+
+mapping = {}
+
+for entry, data_boundary in ws.tables.items():
+    #parse the data within the ref boundary
+    data = ws[data_boundary]
+    #extract the data 
+    #the inner list comprehension gets the values for each cell in the table
+    content = [[cell.value for cell in ent] 
+               for ent in data
+          ]
+    
+    header = content[0]
+    
+    #the contents ... excluding the header
+    rest = content[1:]
+    
+    #create dataframe with the column names
+    #and pair table name with dataframe
+    df = pd.DataFrame(rest, columns = header)
+    mapping[entry] = df
+    
+#for each table, create dataframe:
+for index in mapping:
+    print(index)
+    globals()[f'df_{index}'] = mapping[index]
+    
+ 

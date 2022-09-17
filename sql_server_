@@ -13,7 +13,16 @@ DATABASE_CONNECTION = f'mssql+pyodbc://@{SERVER}/{DATABASE}?driver={DRIVER}'
 #create engine   
 engine_sql = sqlalchemy.create_engine(DATABASE_CONNECTION,fast_executemany=True)
 
-#load dataframe to server
 #df - some dataframe
+
+#LOAD DATAFRAME TO SERVER
 #instead of remplace can use: 'append' and 'fail'
-df.to_sql(index,schema="dbo",con=engine_sql,index=False,if_exists='replace') 
+df.to_sql(test_table,schema="dbo",con=engine_sql,index=False,if_exists='replace') 
+
+
+#GET DATA FROM SERVER
+df_1 = pd.read_sql_query('''
+select *
+from
+dbo.test_table
+''', con = engine_sql)

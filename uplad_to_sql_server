@@ -1,0 +1,19 @@
+import sqlalcemy
+import pandas as pd
+
+#SQL Connection
+
+#new server
+SERVER = 'ServerName'
+DATABASE = 'Test_database'
+
+DRIVER = 'ODBC+Driver+17+for+SQL+Server'
+DATABASE_CONNECTION = f'mssql+pyodbc://@{SERVER}/{DATABASE}?driver={DRIVER}'
+
+#create engine   
+engine_sql = sqlalchemy.create_engine(DATABASE_CONNECTION,fast_executemany=True)
+
+#load dataframe to server
+#df - some dataframe
+#instead of remplace can use: 'append' and 'fail'
+df.to_sql(index,schema="dbo",con=engine_sql,index=False,if_exists='replace') 

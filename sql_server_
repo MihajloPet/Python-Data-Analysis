@@ -6,9 +6,16 @@ import pandas as pd
 #new server
 SERVER = 'ServerName'
 DATABASE = 'Test_database'
+USERNAME = 'username'
+PASSWORD = 'password'
+
 
 DRIVER = 'ODBC+Driver+17+for+SQL+Server'
-DATABASE_CONNECTION = f'mssql+pyodbc://@{SERVER}/{DATABASE}?driver={DRIVER}'
+
+#chose one of two following lines
+DATABASE_CONNECTION = f'mssql+pyodbc://@{SERVER}/{DATABASE}?driver={DRIVER}' #will use windows credentials
+DATABASE_CONNECTION = f'mssql+pyodbc://{USERNAME}:{PASSWORD}@{SERVER}/{DATABASE}?driver={DRIVER}' #will use username and password from script
+
 
 #create engine   
 engine_sql = sqlalchemy.create_engine(DATABASE_CONNECTION,fast_executemany=True)
